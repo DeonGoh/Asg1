@@ -16,16 +16,7 @@ if(isset($_SESSION["ShopperName"])) {
                  <a class='nav-link' href='changePassword.php'>Change Password</a></li>
                  <li class='nav-item'>
                     <a class='nav-link' href='logout.php'>Logout</a>
-                 </li>";
-
-	//To Do 2 (Practical 4) - 
-    //Display number of item in cart
-	if(isset($_SESSION["NumCartItem"]) && $_SESSION["NumCartItem"] != 0){
-        $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
-    }
-    else{
-        $content1 = "Welcome $_SESSION[ShopperName]</b>";
-    }
+                 </li>";    
 }
 ?>
 <!-- To Do 3 (Practical 1) - 
