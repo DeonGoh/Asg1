@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Mamaya e-BookStore</title>
+        <title>Name of business</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="css/site.css">
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <a href="index.php">
-                        <img src="Images/mamayaebooks.jpg" alt="logo" class="img-fluid" style="width:100%">
+                        <img src="Images/Global/logo.png" alt="logo" class="img-fluid" style="width:100%">
                     </a>
                 </div>
             </div>
