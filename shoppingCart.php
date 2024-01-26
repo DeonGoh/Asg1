@@ -25,13 +25,8 @@ if (isset($_SESSION["Cart"])) {
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (Price*Quantity) AS Total FROM ShopCartItem WHERE ShopCartID=?";
 	$stmt = $conn->prepare($qry);
-<<<<<<< Updated upstream
 	$stmt->bind_param("i",$_SESSION["Cart"]);
 	$stmt->execute();
-=======
-	$stmt ->bind_param("i",$_SESSION["Cart"]); // "i" - integer
-	$stmt ->execute();
->>>>>>> Stashed changes
 	$result = $stmt->get_result();
 	$stmt->close();
 	
@@ -39,22 +34,6 @@ if (isset($_SESSION["Cart"])) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
-<<<<<<< Updated upstream
-		echo "<div class='table-responsive' >"; // Bootstrap responsive table
-		echo "<table class='table table-hover'>"; // Start of table
-		echo "<thead class='cart-header'>";
-		echo "<tr>";
-		echo "<th width='250px'>Item</th>";
-		echo "<th width='90px'>Price (S$)</th>";
-		echo "<th width='60px'>Quantity</th>";
-		echo "<th width='120px'>Total (S$)</th>";
-		echo "<th>&nbsp;</th>";
-		echo "</tr>";
-		echo "</thead>";
-		// To Do 5 (Practical 5):
-		// Declare an array to store the shopping cart items in session variable 
-		$_SESSION["Items"] = array();
-=======
 		echo "<div class='table-responsive' style='width:80  %; margin:0 auto 0 auto;'>"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class='cart-header'>"; // Start of table's header section
@@ -72,7 +51,6 @@ if (isset($_SESSION["Cart"])) {
 		$_SESSION['Items']=array();
 
 		
->>>>>>> Stashed changes
 		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
@@ -84,7 +62,6 @@ if (isset($_SESSION["Cart"])) {
 			$formattedPrice = number_format($row["Price"],2);
 			echo "<td>$formattedPrice</td>";
 			echo "<td>";
-<<<<<<< Updated upstream
 			echo "<form action='cartFunctions.php' method='post'>";
 			echo "<select name='quantity' onChange='this.form.submit()'>";
 			for ($i = 1; $i <= 10; $i++){
@@ -93,32 +70,10 @@ if (isset($_SESSION["Cart"])) {
 				}
 				else{
 					$selected = "";
-=======
-			echo "<form action = 'cartFunctions.php' method ='post'>";
-			echo "<select name='quantity' onChange='this.form.submit()'>";
-			for($i = 1; $i <=10; $i++){
-				if($i == $row["Quantity"]){
-					// Select drop-down list item with value same as the quantity of pruchase
-					$selected = "selected";
-				}else{
-					$selected = ""; // No specific item is selected
->>>>>>> Stashed changes
 				}
 				echo "<option value='$i' $selected>$i</option>";
 			}
 			echo "</select>";
-<<<<<<< Updated upstream
-			echo "<input type='hidden' name='action' value='update'/>";
-			echo "<input type='hidden' name='product_id' value=$row[ProductID]' />";
-			echo "</form>";
-			echo "</td>";
-			$formattedTotal = number_format($row["Total"],2);
-			echo "<td>";
-			echo "<form action='cartFunctions.php' method='post'>";
-			echo "<input type='hidden' name='action' value='remove' />";
-			echo "<input type='hidden' name='product_id' value='$row[ProductID]' />";
-			echo "<input type='image' src='images/trash-can.png' title='Remove Item'/>";
-=======
 			echo "<input type = 'hidden' name='action' value='update' />";
 			echo "<input type='hidden' name='product_id' value='$row[ProductID]'/>";
 			echo "</form>";
@@ -130,20 +85,15 @@ if (isset($_SESSION["Cart"])) {
 			echo "<input type ='image' src='images/trash-can.png' alt='Submit'/> ";
 			echo "<input type ='hidden' name ='product_id' value='$row[ProductID]'/>";
 			echo "<input type ='hidden' name='action' value='remove'/>";
->>>>>>> Stashed changes
 			echo "</form>";
 			echo "</td>";
 			echo "</tr>";
 			// To Do 6 (Practical 5):
 		    // Store the shopping cart items in session variable as an associate array
-<<<<<<< Updated upstream
-			$_SESSION["Items"][] = array("productId"=>$row["ProductID"], "name"=>$row["Name"], "price"=>$row["Price"], "quantity"=>$row["Quantity"]);
-=======
 			$_SESSION['Items'][] = array("productId" => $row["ProductID"],
 										"name"=> $row["Name"],
 										"price"=>$row['Price'],
 										"quantity"=>$row['Quantity']);
->>>>>>> Stashed changes
 
 			// Accumulate the running sub-total
 			$subTotal += $row["Total"];
@@ -154,17 +104,6 @@ if (isset($_SESSION["Cart"])) {
 				
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
-<<<<<<< Updated upstream
-		echo "<p style='text-align:right; font-size:20px'> Subtotal = S$".number_format($subTotal, 2);
-		$_SESSION["SubTotal"] = round($subTotal,2);
-			
-		// To Do 7 (Practical 5):
-		// Add PayPal Checkout button on the shopping cart page
-		echo "<form method='post' action='checkoutProcess.php'>";
-		echo "<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
-		echo "</form></p>";
-
-=======
 		echo "<p style='text-align:right; font: size 20px'> Subtotal = S$". number_format($subTotal,2);
 
 		echo "<select name='deliveryMethod' onChange='this.form.submit()'>";
@@ -185,7 +124,6 @@ if (isset($_SESSION["Cart"])) {
 		echo "<input type='image' style='float:right;'
 					src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
->>>>>>> Stashed changes
 	}
 	else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
