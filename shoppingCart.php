@@ -4,19 +4,11 @@
 include_once("cartFunctions.php");
 include("header.php"); // Include the Page Layout header
 
-<<<<<<< Updated upstream
-// if (! isset($_SESSION["ShopperID"])) { // Check if user logged in 					NOTE: REMEMBER TO UNCOMMENT
-// 	// redirect to login page if the session variable shopperid is not set
-// 	header ("Location: login.php");
-// 	exit;
-// }
-=======
 if (!isset($_SESSION["ShopperID"])) { // Check if user logged in 
 	// redirect to login page if the session variable shopperid is not set
 	header ("Location: login.php");
 	exit;
 }
->>>>>>> Stashed changes
 
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
