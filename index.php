@@ -4,8 +4,13 @@ session_start();
 // Include the Page Layout header
 include("header.php"); 
 ?>
+<<<<<<< Updated upstream
 <img src="Images/Index/Index_banner.png" class="img-fluid" 
      style="display:block; margin:auto;"/>
+=======
+<img src="Images/Index_banner.png" class="img-fluid" 
+     style="display:block; margin:auto;"/>";
+>>>>>>> Stashed changes
 
 <?php 
 
