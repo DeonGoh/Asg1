@@ -16,15 +16,9 @@ if (isset($_POST['action'])) {
 
 function addItem() {
 	// Check if user logged in 
-<<<<<<< Updated upstream
-	if (! isset($_SESSION["ShopperID"])) {
-		// redirect to login page if the session variable shopperid is not set
-		header ("Location: login.php"); 
-=======
 	if (!isset($_SESSION["ShopperID"])) {
 		// redirect to login page if the session variable shopperid is not set
 		header ("Location: login.php");
->>>>>>> Stashed changes
 		exit;
 	}
 	// TO DO 1
@@ -32,14 +26,6 @@ function addItem() {
 	// database and also the session variable for counting number of items in shopping cart.
 	include_once("mysql_conn.php"); // Establish database connection handle: $conn
 	// Check if a shopping cart exist, if not create a new shopping cart
-<<<<<<< Updated upstream
-	if (! isset ($_SESSION["Cart"])){
-		$qry = "INSERT INTO Shopcart(ShopperID) VALUES(?)";
-		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("i",$_SESSION["ShopperID"]);
-		$stmt->execute();
-		$stmt->close();
-=======
 	if(!isset($_SESSION["Cart"])){
 		// Create a new shopping cart for the customer
 		$qry = "INSERT INTO Shopcart(ShopperID) VALUES(?)";
@@ -47,7 +33,6 @@ function addItem() {
 		$stmt ->bind_param("i", $_SESSION["ShopperID"]);
 		$stmt ->execute();
 		$stmt ->close();
->>>>>>> Stashed changes
 		$qry = "SELECT LAST_INSERT_ID() AS ShopCartID";
 		$result = $conn->query($qry);
 		$row = $result->fetch_array();
@@ -57,7 +42,6 @@ function addItem() {
   	// update the quantity, else add the item to the Shopping Cart.
   	$pid = $_POST["product_id"];
 	$quantity = $_POST["quantity"];
-<<<<<<< Updated upstream
 	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=? AND ProductID=?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $_SESSION["Cart"], $pid);
@@ -83,49 +67,13 @@ function addItem() {
   	$conn->close();
   	// Update session variable used for counting number of items in the shopping cart.
 	if (isset($_SESSION["NumCartItem"])){
-=======
-	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID = ? AND ProductID = ?";
-	$stmt = $conn->prepare($qry);
-	$stmt ->bind_param("ii",$_SESSION["Cart"],$pid);
-	$stmt ->execute();
-	$result = $stmt->get_result();
-	$stmt->close();
-	$addNewItem = 0;
-	if($result->num_rows > 0){ // Seleceted product exists in shopping cart
-		// increase the quantity of purchase
-		$qry = "UPDATE ShopCartItem SET Quantity=LEAST(Quantity+?, 10)
-				WHERE ShopCartID = ? AND ProductID = ?";
-		$stmt = $conn->prepare($qry);
-		// iii- 3 integers
-		$stmt ->bind_param("iii",$quantity,$_SESSION["Cart"],$pid);
-		$stmt ->execute();
-		$stmt ->close();
-	}
-	else{ // selected product has yet to be added to shpping cart
-		$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID,Price, Name, Quantity)
-				SELECT ?, ?, Price , ProductTitle, ? FROM Product WHERE ProductID =?";
-		$stmt = $conn->prepare($qry);
-		// iiii - 4 integers
-		$stmt ->bind_param("iiii",$_SESSION["Cart"],$pid,$quantity,$pid);
-		$stmt ->execute();
-		$stmt ->close();
-		$addNewItem = 1;		
-	}
-  	$conn->close();
-  	// Update session variable used for counting number of items in the shopping cart.
-	if(isset($_SESSION["NumCartItem"])){
->>>>>>> Stashed changes
 		$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] + $addNewItem;
 	}
 	else{
 		$_SESSION["NumCartItem"] = 1;
 	}
 	// Redirect shopper to shopping cart page
-<<<<<<< Updated upstream
 	header("Location:shoppingCart.php");
-=======
-	header ("Location: shoppingCart.php");
->>>>>>> Stashed changes
 	exit;
 }
 
@@ -142,7 +90,6 @@ function updateItem() {
 	$cartid = $_SESSION["Cart"];
 	$pid = $_POST["product_id"];
 	$quantity = $_POST["quantity"];
-<<<<<<< Updated upstream
 	include_once("mysql_conn.php");
 	$qry = "UPDATE ShopCartItem SET Quantity=? WHERE ProductID=? AND ShopCartID=?";
 	$stmt = $conn->prepare($qry);
@@ -151,16 +98,6 @@ function updateItem() {
 	$stmt->close();
 	$conn->close();
 	header ("Location: shoppingCart.php");
-=======
-	include_once("mysql_conn.php"); // Establish database connection handle: $conn
-	$qry = "UPDATE ShopCartItem SET Quantity=? WHERE ProductID=? AND ShopCartID=?";
-	$stmt = $conn->prepare($qry);
-	$stmt -> bind_param("iii",$quantity,$pid,$cartid);
-	$stmt ->execute();
-	$stmt -> close();
-	$conn ->close();
-	header("Location: shoppingCart.php");
->>>>>>> Stashed changes
 	exit;
 }
 
@@ -173,7 +110,6 @@ function removeItem() {
 	// TO DO 3
 	// Write code to implement: if a user clicks on "Remove" button, update the database
 	// and also the session variable for counting number of items in shopping cart.
-<<<<<<< Updated upstream
 	$cartid = $_SESSION["Cart"];
 	$pid = $_POST["product_id"];
 	include_once("mysql_conn.php");
@@ -187,20 +123,4 @@ function removeItem() {
 	header ("Location: shoppingCart.php");
 	exit;
 }		
-=======
-	header("Location: shoppingCart.php");
-	$cartid = $_SESSION["Cart"];
-	$pid = $_POST["product_id"];
-	include_once("mysql_conn.php"); // Establish database connection handle: $conn
-	$qry = "DELETE FROM shopcartitem WHERE ShopCartID=? AND ProductID=?";
-	$stmt = $conn->prepare($qry);
-	$stmt -> bind_param("ii",$cartid,$pid);
-	$stmt ->execute();
-	$stmt ->close();
-	$conn ->close();
-	header("Location: shoppingCart.php");
-	$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] -1;   
-	exit;
-}	
->>>>>>> Stashed changes
 ?>
