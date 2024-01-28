@@ -94,22 +94,32 @@ if (isset($_SESSION["Cart"])) {
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 				
+		echo "<form action ='cartFunctions.php' method='post'>";
+		echo "<p>";
+		echo "Delivery method ";
+		echo "<select name='deliveryMethod' onChange='this.form.submit()'>";
+		if($_SESSION['DeliveryType'] == 'Express delivery'){
+			echo "<option value='Normal'>Normal Delivery</option>";
+			echo "<option value='Express' selected>Express Delivery</option>";
+		}
+		else{
+			$_SESSION['DeliveryType'] = 'Normal delivery';
+			echo "<option value='Normal'>Normal Delivery</option>";
+			echo "<option value='Express'>Express Delivery</option>";
+		}
+		echo "</select>";
+		echo "<input type ='hidden' name='action' value='deliver'/>";
+		echo "</p>";
+		echo "</form>";
+
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align:right; font: size 20px'> Subtotal = S$". number_format($subTotal,2);
-
-		echo "<select name='deliveryMethod' onChange='this.form.submit()'>";
-		for($i = 1; $i <=10; $i++){
-			if($i == $row["Quantity"]){
-				// Select drop-down list item with value same as the quantity of pruchase
-				$selected = "selected";
-			}else{
-				$selected = ""; // No specific item is selected
-			}
-			echo "<option value='$i' $selected>$i</option>";
-		}
-
 		$_SESSION["SubTotal"] = round($subTotal,2);
+
+		echo "<p style='text-align: right; font: size 20px'> Shipping Charge = S$". number_format($_SESSION["DeliveryCharge"],2);
+
+		echo "<p>Estimated shipping date : ". date_format(new DateTime(), "Y-m-d") . " - " . date_format($_SESSION['DeliveryDate'], "Y-m-d") . "</p>";
 		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";

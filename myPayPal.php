@@ -1,8 +1,8 @@
 <?php
 $PayPalMode 		= 'sandbox'; // sandbox or live
-$PayPalApiUsername 	= 'sb-vrgtz26655431_api1.business.example.com'; 		//PayPal API Username
-$PayPalApiPassword 	= 'SWX2UT8JXJ77768B'; 		//P.busineaypal API password
-$PayPalApiSignature = 'AXif.hXcQZuBaMlF39r6fmvbIIUpA1NkTJxZdW9OrGEgrm83AiPJFkmT'; 		//Paypal API Signature
+$PayPalApiUsername 	= 'sb-ccnhw29418117_api1.business.example.com'; 		//PayPal API Username
+$PayPalApiPassword 	= '6UVQHLX5XERH3LJR'; 		//P.busineaypal API password
+$PayPalApiSignature = 'A1MlLXSv08DWnWAo4PXJeuZmOQCLAgVGXvKaeokEEwMd7Q1PNprBgkxI'; 		//Paypal API Signature
 $PayPalCurrencyCode = 'SGD'; //Paypal Currency Code
 //URL to redirect to after PayPal has complete the online payment
 $PayPalReturnURL 	= 'http://localhost:8081/Asg1/checkoutProcess.php'; 

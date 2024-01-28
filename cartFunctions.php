@@ -11,6 +11,9 @@ if (isset($_POST['action'])) {
 		case 'remove':
             removeItem();
             break;
+		case 'deliver':
+			changeShippingMethod();
+			break;
     }
 }
 
@@ -122,5 +125,45 @@ function removeItem() {
 	$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] - 1;
 	header ("Location: shoppingCart.php");
 	exit;
-}		
+}
+
+function changeShippingMethod(){
+	switch($_POST['deliveryMethod']){
+		case 'Normal':
+			$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
+			$deliveryType = "Normal delivery";
+			$charge = 5;
+			break;
+		case 'Express':
+			$charge = 10;
+			if($_SESSION["SubTotal"] > 200){
+				$charge = 0;	
+			}
+			$deliveryType = "Express delivery";
+			$deliveryDate = date_add(new DateTime(), date_interval_create_from_date_string("1 days"));
+			break;
+	}
+	$_SESSION['DeliveryDate'] = $deliveryDate;
+	$_SESSION['DeliveryCharge'] = $charge;
+	$_SESSION['DeliveryType'] = $deliveryType;
+	header ("Location: shoppingCart.php");
+	exit;
+}
+
+function addWorkingDays($startDate, $numWorkingDays) {
+    $startDate = new DateTime($startDate);
+    
+    // Iterate through each day and skip weekends
+    for ($i = 0; $i < $numWorkingDays; $i++) {
+        $startDate->modify('+1 day');
+        
+        // Skip weekends (Saturday and Sunday)
+		// 6 stands for Saturday & 7 stands for sunday
+        while ($startDate->format('N') >= 6) {
+            $startDate->modify('+1 day');
+        }
+    }
+    
+    return $startDate;
+}
 ?>

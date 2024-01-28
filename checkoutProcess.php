@@ -39,12 +39,37 @@ if($_POST) //Post Data received from Shopping cart page.
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
+
+	//================================
+	//
+	// Tax Rate retrieved from Table
+	//
+	//================================
+
+	$qry = "SELECT EffectiveDate, TaxRate FROM gst ORDER BY EffectiveDate Desc";
+	$stmt = $conn->prepare($qry);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+	// Display each product in a row
+	while($row = $result->fetch_array()){
+		if(DateTime::createFromFormat("Y-m-d", $row["EffectiveDate"]) <= new DateTime()){	
+			$taxRate = $row["TaxRate"];
+			break;
+		}
+	}
+
+	$_SESSION["TaxRate"] = $taxRate;
+
+	// Get GST from table in database and round the figure to 2 decimal places
+	$_SESSION["Tax"] = round($_SESSION["SubTotal"] * ($taxRate/100), 2);
 	
-	// To Do 1A: Compute GST amount 7% for Singapore, round the figure to 2 decimal places
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"] * 0.09,2);
-	
-	// To Do 1B: Compute Shipping charge - S$2.00 per trip
-	$_SESSION["ShipCharge"] = 2.00;
+	// Compute Shipping charge 
+	//	- S$5.00 for normal
+	//	- S$10.00 for Express
+	//	- S$0.00 for Express when subtotal > S$200
+
+	$_SESSION["ShipCharge"] = $_SESSION["DeliveryCharge"];
 	
 	//Data to be sent to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
@@ -57,9 +82,15 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&PAYMENTREQUEST_0_ITEMAMT='.urlencode($_SESSION["SubTotal"]). 
 			  '&PAYMENTREQUEST_0_SHIPPINGAMT='.urlencode($_SESSION["ShipCharge"]). 
 			  '&PAYMENTREQUEST_0_TAXAMT='.urlencode($_SESSION["Tax"]). 	
-			  '&BRANDNAME='.urlencode("Mamaya e-BookStore").
+			  //=============================
+			  //
+			  // IMPORTANT!!!
+			  // ENTER OUR WEBSITE NAME HERE v
+			  //
+			  //=============================
+			  '&BRANDNAME='.urlencode("Mamaya e-BookStore"). 
 			  $paypal_data.				
-			  '&RETURNURL='.urlencode($PayPalReturnURL ).
+			  '&RETURNURL='.urlencode($PayPalReturnURL).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
 		
 	//We need to execute the "SetExpressCheckOut" method to obtain paypal token
@@ -197,11 +228,11 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			
 			// To Do 3: Insert an Order record with shipping information
 			//          Get the Order ID and save it in session variable.
-			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry, ShipEmail, ShopCartID)
-					VALUES(?, ?, ?, ?, ?)";
+			$qry = "INSERT INTO orderdata (ShipName, ShipAddress, ShipCountry, ShipEmail, ShopCartID, DeliveryMode)
+					VALUES(?, ?, ?, ?, ?, ?)";
 			$stmt = $conn->prepare($qry);
 			// "i" - integer, "s"- string
-			$stmt->bind_param("ssssi",$ShipName,$ShipAddress,$ShipCountry,$ShipEmail,$_SESSION["Cart"]);
+			$stmt->bind_param("ssssis",$ShipName,$ShipAddress,$ShipCountry,$ShipEmail,$_SESSION["Cart"], $_SESSION["DeliveryType"]);
 			$stmt->execute();
 			$stmt->close();
 			$qry = "SELECT LAST_INSERT_ID() AS OrderID";
