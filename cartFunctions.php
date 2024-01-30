@@ -53,6 +53,13 @@ function addItem() {
 	$stmt->close();
 	$addNewItem = 0;
 	if ($result->num_rows>0){
+		$currentQuantity = getCurrentQuantity($conn, $cartid, $pid);
+		if ($currentQuantity + $quantity > 10){
+			$addNewItem = 10 - $currentQuantity;
+		}
+		else{
+			$addNewItem = $quantity;
+		}
 		$qry = "UPDATE ShopCartItem SET Quantity=LEAST(Quantity+?,10) WHERE ShopCartID=? AND ProductID=?";
 		$stmt = $conn->prepare($qry);
 		$stmt->bind_param("iii",$quantity,$_SESSION["Cart"],$pid);
@@ -65,7 +72,7 @@ function addItem() {
 		$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
 		$stmt->execute();
 		$stmt->close();
-		$addNewItem = 1;
+		$addNewItem = $quantity;
 	}
   	$conn->close();
   	// Update session variable used for counting number of items in the shopping cart.
@@ -73,7 +80,7 @@ function addItem() {
 		$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] + $addNewItem;
 	}
 	else{
-		$_SESSION["NumCartItem"] = 1;
+		$_SESSION["NumCartItem"] = $addNewItem;
 	}
 	// Redirect shopper to shopping cart page
 	header("Location:shoppingCart.php");
@@ -94,6 +101,8 @@ function updateItem() {
 	$pid = $_POST["product_id"];
 	$quantity = $_POST["quantity"];
 	include_once("mysql_conn.php");
+	$currentQuantity = getCurrentQuantity($conn, $cartid, $pid);
+	$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] + $quantity - $currentQuantity;
 	$qry = "UPDATE ShopCartItem SET Quantity=? WHERE ProductID=? AND ShopCartID=?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("iii",$quantity, $pid, $cartid);
@@ -116,13 +125,14 @@ function removeItem() {
 	$cartid = $_SESSION["Cart"];
 	$pid = $_POST["product_id"];
 	include_once("mysql_conn.php");
+	$quantity = getCurrentQuantity($conn, $cartid, $pid);
 	$qry = "DELETE FROM ShopCartItem WHERE ProductID=? AND ShopCartID=?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii",$pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
 	$conn->close();
-	$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] - 1;
+	$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] - $quantity;
 	header ("Location: shoppingCart.php");
 	exit;
 }
@@ -165,5 +175,19 @@ function addWorkingDays($startDate, $numWorkingDays) {
     }
     
     return $startDate;
+}
+
+function getCurrentQuantity($conn, $cartid, $pid) {
+	$quantity = 0;
+	$qry = "SELECT Quantity FROM ShopCartItem WHERE ProductID=? AND ShopCartID=?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("ii",$pid, $cartid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+	while($row = $result->fetch_array()){
+		$quantity = $row["Quantity"];
+	}
+	return $quantity;
 }
 ?>
