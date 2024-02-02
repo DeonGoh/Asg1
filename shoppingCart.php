@@ -115,21 +115,41 @@ if (isset($_SESSION["Cart"])) {
 		echo "</div>"; // End of Bootstrap responsive table
 
 		echo "<form action ='cartFunctions.php' method='post'>";
-		echo "<p>";
+		echo "<p style='text-align:right;'>";
 		echo "Delivery method ";
 		echo "<select name='deliveryMethod' onChange='this.form.submit()'>";
 		if ($_SESSION['DeliveryType'] == 'Express delivery') {
 			echo "<option value='Normal'>Normal Delivery</option>";
 			echo "<option value='Express' selected>Express Delivery</option>";
-		} else {
+		} 
+		else {
 			$_SESSION['DeliveryType'] = 'Normal delivery';
-			echo "<option value='Normal'>Normal Delivery</option>";
+			echo "<option value='Normal' selected>Normal Delivery</option>";
 			echo "<option value='Express'>Express Delivery</option>";
-		}
+		}	
 		echo "</select>";
 		echo "<input type ='hidden' name='action' value='deliver'/>";
 		echo "</p>";
 		echo "</form>";
+
+		switch ($_SESSION['DeliveryType']) {
+			case 'Normal delivery':
+				$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
+				$deliveryType = "Normal delivery";
+				$charge = 5;
+				break;
+			case 'Express delivery':
+				$charge = 10;
+				if ($_SESSION["SubTotal"] > 200) {
+					$charge = 0;
+				}
+				$deliveryType = "Express delivery";
+				$deliveryDate = date_add(new DateTime(), date_interval_create_from_date_string("1 days"));
+				break;
+		}
+		$_SESSION['DeliveryDate'] = $deliveryDate;
+		$_SESSION['DeliveryCharge'] = $charge;
+		$_SESSION['DeliveryType'] = $deliveryType;
 
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
@@ -138,7 +158,7 @@ if (isset($_SESSION["Cart"])) {
 
 		echo "<p style='text-align: right; font: size 20px'> Shipping Charge = S$" . number_format($_SESSION["DeliveryCharge"], 2);
 
-		echo "<p>Estimated shipping date : " . date_format(new DateTime(), "Y-m-d") . " - " . date_format($_SESSION['DeliveryDate'], "Y-m-d") . "</p>";
+		echo "<p style='text-align:right;'>Estimated shipping date : " . date_format(new DateTime(), "Y-m-d") . " - " . date_format($_SESSION['DeliveryDate'], "Y-m-d") . "</p>";
 		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
