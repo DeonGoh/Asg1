@@ -27,7 +27,7 @@ if (isset($_SESSION["Cart"])) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>";
-		echo "<div class='table-responsive' style='width:80  %; margin:0 auto 0 auto;'>"; // Bootstrap responsive table
+		echo "<div class='table-responsive' style='width:80%; margin:0 auto 0 auto;'>"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class='cart-header'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
