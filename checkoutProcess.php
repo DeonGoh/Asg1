@@ -82,13 +82,8 @@ if($_POST) //Post Data received from Shopping cart page.
 			  '&PAYMENTREQUEST_0_ITEMAMT='.urlencode($_SESSION["SubTotal"]). 
 			  '&PAYMENTREQUEST_0_SHIPPINGAMT='.urlencode($_SESSION["ShipCharge"]). 
 			  '&PAYMENTREQUEST_0_TAXAMT='.urlencode($_SESSION["Tax"]). 	
-			  //=============================
-			  //
-			  // IMPORTANT!!!
-			  // ENTER OUR WEBSITE NAME HERE v
-			  //
-			  //=============================
-			  '&BRANDNAME='.urlencode("Mamaya e-BookStore"). 
+		
+			  '&BRANDNAME='.urlencode("PetalCraft"). 
 			  $paypal_data.				
 			  '&RETURNURL='.urlencode($PayPalReturnURL).
 			  '&CANCELURL='.urlencode($PayPalCancelURL);	
@@ -191,6 +186,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		$stmt-> bind_param("iddddi",$_SESSION["NumCartItem"],$_SESSION["SubTotal"],$_SESSION["ShipCharge"],$_SESSION["Tax"],$total,$_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
+
+		$_SESSION["Total"] = $total;
 		// End of To Do 2
 		
 		//We need to execute the "GetTransactionDetails" API Call at this point 
@@ -240,6 +237,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$row = $result->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
 
+
+			$_SESSION["ShipAddress"] = $ShipAddress;
 			// End of To Do 3
 				
 			$conn->close();

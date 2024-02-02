@@ -168,6 +168,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "<input type='image' style='float:right;'
 					src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
+		
 	} else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 	}
