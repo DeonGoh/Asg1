@@ -57,9 +57,17 @@ include("header.php"); // Include the Page Layout header
         echo "<p><img src=$img /></p>";
 
         // Right Column - display the product's price
+        // check if product is on offer
+        $offeredPrice = number_format($row["OfferedPrice"], 2);
+        $offered = $row["Offered"];
         $formattedPrice = number_format($row["Price"], 2);
-        echo "Price:<span style='font-weight:bold; color:red;'>
+        if ($offered == 1) { // on offer
+            echo "Price:<span style='font-weight:bold; color:red;'>
+            <s>S$ $formattedPrice</s> Offer: $offeredPrice</span>";
+        } else { // not on offer
+            echo "Price:<span style='font-weight:bold; color:red;'>
           S$ $formattedPrice</span>";
+        }
     }
 
     // To Do 1:  Ending ....
