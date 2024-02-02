@@ -54,7 +54,7 @@ include("header.php"); // Include the Page Layout header
         // Right column - display the product's image
         $img = "./Images/products/$row[ProductImage]";
         echo "<div class='col-sm-3 style='vertical-align:top; padding:5px;'>";
-        echo "<p><img src=$img /></p>";
+        echo "<p><img src=$img style='width: 100%;height: auto;'/></p>";
 
         // Right Column - display the product's price
         // check if product is on offer

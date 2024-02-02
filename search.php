@@ -67,8 +67,9 @@ include("header.php"); // Include the Page Layout header
             $result = $stmt->get_result();
             $stmt->close();
 
-            // To Do (DIY): Retrieve list of product records with "ProductTitle" 
+            // Retrieve list of product records with "ProductTitle" 
             // contains the keyword entered by shopper, and display them in a table.
+            echo "<p style='font-weight: bold;'>Search for: '$_GET[keywords]' and Price Range of $_GET[min_price]-$_GET[max_price]</p>";
             while ($row = $result->fetch_array()) {
                 $product = "productDetails.php?pid=$row[ProductID]";
                 echo "<p><a href=$product>$row[ProductTitle]</a></p>";
