@@ -121,12 +121,11 @@ if (isset($_SESSION["Cart"])) {
 		if ($_SESSION['DeliveryType'] == 'Express') {
 			echo "<option value='Normal'>Normal Delivery</option>";
 			echo "<option value='Express' selected>Express Delivery</option>";
-		} 
-		else {
+		} else {
 			$_SESSION['DeliveryType'] = 'Normal';
 			echo "<option value='Normal' selected>Normal Delivery</option>";
 			echo "<option value='Express'>Express Delivery</option>";
-		}	
+		}
 		echo "</select>";
 		echo "<input type ='hidden' name='action' value='deliver'/>";
 		echo "</p>";
@@ -168,7 +167,6 @@ if (isset($_SESSION["Cart"])) {
 		echo "<input type='image' style='float:right;'
 					src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
-		
 	} else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
 	}

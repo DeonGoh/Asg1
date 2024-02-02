@@ -63,7 +63,7 @@ include("header.php"); // Include the Page Layout header
         $formattedPrice = number_format($row["Price"], 2);
         if ($offered == 1) { // on offer
             echo "Price:<span style='font-weight:bold; color:red;'>
-            <s>S$ $formattedPrice</s> Offer: $offeredPrice</span>";
+            <s>S$ $formattedPrice</s> Offer: S$ $offeredPrice</span>";
         } else { // not on offer
             echo "Price:<span style='font-weight:bold; color:red;'>
           S$ $formattedPrice</span>";
