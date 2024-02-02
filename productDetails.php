@@ -54,7 +54,7 @@ include("header.php"); // Include the Page Layout header
         // Right column - display the product's image
         $img = "./Images/products/$row[ProductImage]";
         echo "<div class='col-sm-3 style='vertical-align:top; padding:5px;'>";
-        echo "<p><img src=$img /></p>";
+        echo "<p><img src=$img style='width: 100%;height: auto;'/></p>";
 
         // Right Column - display the product's price
         // check if product is on offer
@@ -63,7 +63,7 @@ include("header.php"); // Include the Page Layout header
         $formattedPrice = number_format($row["Price"], 2);
         if ($offered == 1) { // on offer
             echo "Price:<span style='font-weight:bold; color:red;'>
-            <s>S$ $formattedPrice</s> Offer: $offeredPrice</span>";
+            <s>S$ $formattedPrice</s> Offer: S$ $offeredPrice</span>";
         } else { // not on offer
             echo "Price:<span style='font-weight:bold; color:red;'>
           S$ $formattedPrice</span>";
@@ -92,12 +92,16 @@ include("header.php"); // Include the Page Layout header
     echo "<input type='hidden' name='action' value='add' />";
     echo "<input type='hidden' name='product_id' value='$pid' />";
     // if the product is in stock display form
-    if ($product_out_of_stock == false) {
+    if ($product_out_of_stock == false) { // if in stock
         echo "Quantity: <input type='number' name='quantity' value='1' 
       min='1' max='10' style='width:40px' required />";
 
         echo "<button type='submit'>Add to Cart</button>";
-    } else {
+    } else { // not in stock
+        echo "Quantity: <input type='number' name='quantity' value='1' 
+      min='1' max='10' style='width:40px' required />";
+
+        echo "<button type='submit' disabled>Add to Cart</button>";
         echo "<p style='color: red;'>Out of Stock</p>";
     }
 

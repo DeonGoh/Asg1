@@ -118,32 +118,34 @@ if (isset($_SESSION["Cart"])) {
 		echo "<p style='text-align:right;'>";
 		echo "Delivery method ";
 		echo "<select name='deliveryMethod' onChange='this.form.submit()'>";
-		if ($_SESSION['DeliveryType'] == 'Express delivery') {
+		if ($_SESSION['DeliveryType'] == 'Express') {
 			echo "<option value='Normal'>Normal Delivery</option>";
 			echo "<option value='Express' selected>Express Delivery</option>";
-		} 
-		else {
-			$_SESSION['DeliveryType'] = 'Normal delivery';
+		} else {
+			$_SESSION['DeliveryType'] = 'Normal';
 			echo "<option value='Normal' selected>Normal Delivery</option>";
 			echo "<option value='Express'>Express Delivery</option>";
-		}	
+		}
 		echo "</select>";
 		echo "<input type ='hidden' name='action' value='deliver'/>";
 		echo "</p>";
 		echo "</form>";
 
+		//===================
+		// This run once when the page is loadedcause the variables will not be loaded otherwise
+		//===================
 		switch ($_SESSION['DeliveryType']) {
-			case 'Normal delivery':
+			case 'Normal':
 				$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
-				$deliveryType = "Normal delivery";
+				$deliveryType = "Normal";
 				$charge = 5;
 				break;
-			case 'Express delivery':
+			case 'Express':
 				$charge = 10;
 				if ($_SESSION["SubTotal"] > 200) {
 					$charge = 0;
 				}
-				$deliveryType = "Express delivery";
+				$deliveryType = "Express";
 				$deliveryDate = date_add(new DateTime(), date_interval_create_from_date_string("1 days"));
 				break;
 		}

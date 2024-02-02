@@ -13,3 +13,18 @@ body {
 	background-color: #017CA7;
 	color: white;
 }
+
+.price_range {
+	display: flex;
+  	align-items: center;
+	align-content: space-between;
+	flex-wrap: wrap;
+}
+
+.price_range input{
+	width: 33%;
+}
+
+.price_range div{
+	margin: auto;
+}

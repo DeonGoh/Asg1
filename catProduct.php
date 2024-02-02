@@ -4,15 +4,15 @@ include("header.php"); // Include the Page Layout header
 ?>
 <!-- Create a container, 60% width of viewport -->
 <div style='width:60%; margin:auto;'>
-	<!-- Display Page Header - Category's name is read 
+    <!-- Display Page Header - Category's name is read 
      from the query string passed from previous page -->
-	<div class="row" style="padding:5px">
-		<div class="col-12">
-			<span class="page-title"><?php echo "$_GET[catName]"; ?></span>
-		</div>
-	</div>
+    <div class="row" style="padding:5px">
+        <div class="col-12">
+            <span class="page-title"><?php echo "$_GET[catName]"; ?></span>
+        </div>
+    </div>
 
-	<?php
+    <?php
 	// Include the PHP file that establishes database connection handle: $conn
 	include_once("mysql_conn.php");
 
@@ -58,7 +58,7 @@ include("header.php"); // Include the Page Layout header
 		// Right column - display the product's image
 		$img = "./Images/products/$row[ProductImage]";
 		echo "<div class='col-4'>"; // 33% of row width
-		echo "<img src='$img' />";
+		echo "<img src='$img' style='width: 100%;height: auto;'/>";
 		echo "</div>";
 
 		echo "</div>"; // End of a row
