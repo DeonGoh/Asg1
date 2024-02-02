@@ -28,3 +28,17 @@ body {
 .price_range div{
 	margin: auto;
 }
+
+.producttable{
+	width:100%; 
+	border-collapse:collapse;
+}
+
+.producttable td th{
+	width:25%;
+}
+
+.producttable th{
+	background-color: #3366ff;
+  	color: white;
+}
