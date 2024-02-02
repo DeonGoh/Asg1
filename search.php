@@ -7,6 +7,7 @@ include("header.php"); // Include the Page Layout header
 <div style="width:80%; margin:auto;">
     <!-- Container -->
     <form name="frmSearch" method="get" action="">
+        <!-- Product Search -->
         <div class="mb-3 row">
             <!-- 1st row -->
             <div class="col-sm-9 offset-sm-3">
@@ -16,13 +17,24 @@ include("header.php"); // Include the Page Layout header
         <div class="mb-3 row">
             <!-- 2nd row -->
             <label for="keywords" class="col-sm-3 col-form-label">Product Title:</label>
-            <div class="col-sm-6">
+            <div class="col-sm-9">
                 <input class="form-control" name="keywords" id="keywords" type="search" />
             </div>
-            <div class="col-sm-3">
+        </div> <!-- End of 2nd row -->
+        <!-- Price Range -->
+        <div class="mb-3 row">
+            <label for="price_range" class="col-sm-3 col-form-label">Price Range:</label>
+            <div class="col-sm-6">
+                <div class="price_range">
+                    <input class="form-control" name="min_price" id="price_range" type="search" placeholder="minimum price" />
+                    <div> to </div>
+                    <input class="form-control" name="max_price" id="price_range" type="search" placeholder="maximum price" />
+                </div>
+            </div>
+            <div class="col-sm-3" style="text-align: center;">
                 <button type="submit">Search</button>
             </div>
-        </div> <!-- End of 2nd row -->
+        </div>
     </form>
 
     <?php
@@ -30,10 +42,13 @@ include("header.php"); // Include the Page Layout header
     include_once("mysql_conn.php");
 
     // The non-empty search keyword is sent to server
-    if (isset($_GET["keywords"]) && trim($_GET['keywords']) != "") {
+    if (
+        isset($_GET["keywords"]) && trim($_GET['keywords']) != "" ||
+        isset($_GET["min_price"]) && trim($_GET['min_price']) != "" ||
+        isset($_GET["max_price"]) && trim($_GET['max_price']) != ""
+    ) {
         $qry = "SELECT * FROM product WHERE ProductTitle LIKE ? ORDER BY ProductTitle ASC";
         $search_string = "%" . $_GET["keywords"] . "%";
-
         $stmt = $conn->prepare($qry);
         $stmt->bind_param("s", $search_string);
         $stmt->execute();
