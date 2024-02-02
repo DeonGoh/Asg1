@@ -6,7 +6,7 @@
     <div class="col-sm-12" style="text-align: right;">
         <hr />
         Do you need help? Please email to:
-        <a href="mailto:mamaya@np.edu.sg">mamaya@np.edu.sg</a>
-        <p style="font-size:12px">&copy; Copyright by Mamaya Group </p>
+        <a href="mailto:PetalCraft@np.edu.sg">PetalCraft@np.edu.sg</a>
+        <p style="font-size:12px">&copy; Copyright by PetalCraft </p>
     </div>
 </div>

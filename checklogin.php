@@ -22,6 +22,42 @@ if($stmt->execute()){
 			$_SESSION["ShopperName"] = $row['Name'];
 			$_SESSION["ShopperID"] = $row['ShopperID'];
 			
+			// To Do 2 (Practical 4): Get active shopping cart
+			// Include the PHP file that establishes database connection handle: $conn
+			include_once("mysql_conn.php");
+
+			$qry = "SELECT ShopCart.ShopCartID
+					FROM ShopCart
+					INNER JOIN ShopCartItem
+					ON ShopCartItem.ShopCartID = ShopCart.ShopCartID 
+					WHERE ShopperID=? AND OrderPlaced=0
+					HAVING COUNT(ShopCartItem.ShopCartID) > 0";
+
+			$stmt = $conn->prepare($qry);
+			$stmt->bind_param("i", $_SESSION["ShopperID"]); // "i" - integer
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+
+			// If there is a result add the shopcartid else session["Cart"] will still be null
+			while ($row = $result->fetch_array()) {
+				$_SESSION["Cart"] = $row["ShopCartID"];
+			}
+
+			$qry = "SELECT Count(*) AS ShopCartItemCount
+					FROM ShopCartItem
+					WHERE ShopCartID=?";
+
+			$stmt = $conn->prepare($qry);
+			$stmt->bind_param("i", $_SESSION["Cart"]); // "i" - integer
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+
+			while ($row = $result->fetch_array()) {
+				$_SESSION["NumCartItem"] = $row["ShopCartItemCount"];
+			}
+			
 			// Redirect to home page
 			header("Location: index.php");
 			exit;

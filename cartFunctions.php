@@ -142,7 +142,7 @@ function changeShippingMethod()
 	switch ($_POST['deliveryMethod']) {
 		case 'Normal':
 			$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
-			$deliveryType = "Normal delivery";
+			$deliveryType = "Normal";
 			$charge = 5;
 			break;
 		case 'Express':
@@ -150,7 +150,7 @@ function changeShippingMethod()
 			if ($_SESSION["SubTotal"] > 200) {
 				$charge = 0;
 			}
-			$deliveryType = "Express delivery";
+			$deliveryType = "Express";
 			$deliveryDate = date_add(new DateTime(), date_interval_create_from_date_string("1 days"));
 			break;
 	}
