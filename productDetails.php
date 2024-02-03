@@ -62,8 +62,12 @@ include("header.php"); // Include the Page Layout header
         $offered = $row["Offered"];
         $formattedPrice = number_format($row["Price"], 2);
         if ($offered == 1) { // on offer
-            echo "Price:<span style='font-weight:bold; color:red;'>
-            <s>S$ $formattedPrice</s> Offer: S$ $offeredPrice</span>";
+            echo "<h4 style='color:red;'>On Offer</h4>";
+            echo "Price:<span style='font-weight:bold; color:grey;'>
+            <s>S$ $formattedPrice</s></span>";
+            echo "<br>";
+            echo "Offer:<span style='font-weight:bold; color:red;'>
+            S$ $offeredPrice</span>";
         } else { // not on offer
             echo "Price:<span style='font-weight:bold; color:red;'>
           S$ $formattedPrice</span>";
@@ -99,10 +103,10 @@ include("header.php"); // Include the Page Layout header
         echo "<button type='submit'>Add to Cart</button>";
     } else { // not in stock
         echo "Quantity: <input type='number' name='quantity' value='1' 
-      min='1' max='10' style='width:40px' required />";
+      min='1' max='10' style='width:40px' disabled />";
 
         echo "<button type='submit' disabled>Add to Cart</button>";
-        echo "<p style='color: red;'>Out of Stock</p>";
+        echo "<p style='color: red;font-weight: bold;'>Out of Stock</p>";
     }
 
     echo "</form>";

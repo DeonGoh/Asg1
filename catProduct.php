@@ -45,11 +45,12 @@ include("header.php"); // Include the Page Layout header
 		echo "<p><a href=$product>$row[ProductTitle]</a></p>";
 		// when the item is on offer
 		if ($offered == 1) {
-			echo "Price:<span style='font-weight:bold; color:red;'>
-		  S$ <s>$formattedPrice</s></span>";
+			echo "Price:<span style='font-weight:bold; color:grey;'>
+		  	 <s>S$$formattedPrice</s></span>";
 			echo "<br>";
 			echo "Discounted Price:<span style='font-weight:bold; color:red;'>
 			S$ $offeredPrice</span>";
+			echo "<h2 style='color:red;'>On Offer</h2>";
 		} else { // when not on offer
 			echo "Price:<span style='font-weight:bold; color:red;'>
 		  	S$ $formattedPrice</span>";
