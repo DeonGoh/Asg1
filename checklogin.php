@@ -11,6 +11,8 @@ $pwd = $_POST["password"];
 // To Do 1 (Practical 2): Validate login credentials with database
 include_once("mysql_conn.php");
 
+$invalidCredentials = false;
+
 $qry = "SELECT * FROM Shopper";
 $stmt = $conn -> prepare($qry);
 
@@ -44,18 +46,16 @@ if($stmt->execute()){
 				$_SESSION["Cart"] = $row["ShopCartID"];
 			}
 
-			$qry = "SELECT Count(*) AS ShopCartItemCount
-					FROM ShopCartItem
-					WHERE ShopCartID=?";
-
+			// Initialize Number of Cart Items in session
+			$_SESSION["NumCartItem"] = 0;
+			$qry = "SELECT Quantity FROM ShopCartItem WHERE ShopCartID=?";
 			$stmt = $conn->prepare($qry);
-			$stmt->bind_param("i", $_SESSION["Cart"]); // "i" - integer
+			$stmt->bind_param("i", $_SESSION["Cart"]);
 			$stmt->execute();
 			$result = $stmt->get_result();
 			$stmt->close();
-
 			while ($row = $result->fetch_array()) {
-				$_SESSION["NumCartItem"] = $row["ShopCartItemCount"];
+				$_SESSION["NumCartItem"] = $_SESSION["NumCartItem"] + $row["Quantity"];
 			}
 			
 			// Redirect to home page
@@ -63,10 +63,12 @@ if($stmt->execute()){
 			exit;
 		}
 		else {
-			echo  "<h3 style='color:red'>Invalid Login Credentials</h3>";
+			$invalidCredentials = true;
 		}
 	}
-    
+    if ($invalidCredentials){
+		echo  "<h3 style='color:red'>Invalid Login Credentials</h3>";
+	}
 }
 else{ // Error Message
     $Message = "<h3 style='color:red'>Error in getting shoppers records</h3>";
