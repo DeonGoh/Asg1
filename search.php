@@ -29,11 +29,9 @@ include("header.php"); // Include the Page Layout header
             <label for="price_range" class="col-sm-3 col-form-label">Price Range:</label>
             <div class="col-sm-6">
                 <div class="price_range">
-                    <input class="form-control" name="min_price" id="price_range" type="number"
-                        placeholder="minimum price" value="1" />
+                    <input class="form-control" name="min_price" id="price_range" type="number" placeholder="minimum price" value="" />
                     <div> to </div>
-                    <input class="form-control" name="max_price" id="price_range" type="number"
-                        placeholder="maximum price" value="1000" />
+                    <input class="form-control" name="max_price" id="price_range" type="number" placeholder="maximum price" value="" />
                 </div>
             </div>
             <div class="col-sm-3" style="text-align: center;">
@@ -47,33 +45,71 @@ include("header.php"); // Include the Page Layout header
     include_once("mysql_conn.php");
 
     // The non-empty search keyword is sent to server
-    if ( // if keyword and price range are both declared
+    if (
         isset($_GET["keywords"]) && trim($_GET['keywords']) != "" ||
         isset($_GET["min_price"]) && trim($_GET['min_price']) != "" ||
         isset($_GET["max_price"]) && trim($_GET['max_price']) != ""
     ) {
-        // validate price range: that the min price is smaller than max price
-        if ($_GET["min_price"] != "" && $_GET["max_price"] != "" && ($_GET["min_price"] > $_GET["max_price"])) {
-            echo "<h4 style='text-align:center; color:red;'>Min Price Higher than Max Price</h3>";
-        } else {
+        // if min price is not filled and max price is filled and keword is not filled
+        if ($_GET["min_price"] == "" && $_GET["max_price"] != "") {
             $qry = "SELECT * FROM product WHERE ProductTitle LIKE ? AND 
-                    (Price BETWEEN ? AND ? OR
-                    OfferedPrice BETWEEN ? AND ?)  
+                    (Price < ? OR
+                    OfferedPrice < ?)  
                     ORDER BY ProductTitle ASC";
             $search_string = "%" . $_GET["keywords"] . "%";
             $stmt = $conn->prepare($qry);
-            $stmt->bind_param("sdddd", $search_string, $_GET["min_price"], $_GET["max_price"], $_GET["min_price"], $_GET["max_price"]);
+            $stmt->bind_param("sdd", $search_string, $_GET["max_price"], $_GET["max_price"]);
             $stmt->execute();
             $result = $stmt->get_result();
             $stmt->close();
+        } elseif ($_GET["min_price"] != "" && $_GET["max_price"] == "") {
+            // if min price is not filled and max price is filled
+            $qry = "SELECT * FROM product WHERE ProductTitle LIKE ? AND 
+                    (Price > ? OR
+                    OfferedPrice > ?)  
+                    ORDER BY ProductTitle ASC";
+            $search_string = "%" . $_GET["keywords"] . "%";
+            $stmt = $conn->prepare($qry);
+            $stmt->bind_param("sdd", $search_string, $_GET["min_price"], $_GET["min_price"]);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+        } elseif ($_GET["min_price"] == "" && $_GET["max_price"] == "") {
+            // if min and max price fields are empty
+            $qry = "SELECT * FROM product WHERE ProductTitle LIKE ?
+                    ORDER BY ProductTitle ASC";
+            $search_string = "%" . $_GET["keywords"] . "%";
+            $stmt = $conn->prepare($qry);
+            $stmt->bind_param("s", $search_string);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+        } else {
+            // if price range fields are filled
 
-            // Retrieve list of product records with "ProductTitle" 
-            // contains the keyword entered by shopper, and display them in a table.
-            echo "<p style='font-weight: bold;'>Search for: '$_GET[keywords]' and Price Range of $_GET[min_price]-$_GET[max_price]</p>";
-            while ($row = $result->fetch_array()) {
-                $product = "productDetails.php?pid=$row[ProductID]";
-                echo "<p><a href=$product>$row[ProductTitle]</a></p>";
+            // validate price range: that the min price is smaller than max price
+            if ($_GET["min_price"] != "" && $_GET["max_price"] != "" && ($_GET["min_price"] > $_GET["max_price"])) {
+                echo "<h4 style='text-align:center; color:red;'>Min Price Higher than Max Price</h3>";
+            } else {
+                $qry = "SELECT * FROM product WHERE ProductTitle LIKE ? AND 
+                    (Price BETWEEN ? AND ? OR
+                    OfferedPrice BETWEEN ? AND ?)  
+                    ORDER BY ProductTitle ASC";
+                $search_string = "%" . $_GET["keywords"] . "%";
+                $stmt = $conn->prepare($qry);
+                $stmt->bind_param("sdddd", $search_string, $_GET["min_price"], $_GET["max_price"], $_GET["min_price"], $_GET["max_price"]);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
             }
+        }
+
+        // Retrieve list of product records with "ProductTitle" 
+        // contains the keyword entered by shopper, and display them in a table.
+        echo "<p style='font-weight: bold;'>Search for: '$_GET[keywords]' and Price Range of $_GET[min_price]-$_GET[max_price]</p>";
+        while ($row = $result->fetch_array()) {
+            $product = "productDetails.php?pid=$row[ProductID]";
+            echo "<p><a href=$product>$row[ProductTitle]</a></p>";
         }
     }
     echo "</div>"; // End of container
