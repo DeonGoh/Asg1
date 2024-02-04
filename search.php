@@ -12,28 +12,25 @@ include("header.php"); // Include the Page Layout header
     <form name="frmSearch" method="get" action="">
         <!-- Product Search -->
         <div class="mb-3 row">
-            <!-- 1st row -->
             <div class="col-sm-9 offset-sm-3">
                 <span class="page-title">Product Search</span>
             </div>
-        </div> <!-- End of 1st row -->
+        </div>
+        <!-- Product Search -->
         <div class="mb-3 row">
-            <!-- 2nd row -->
             <label for="keywords" class="col-sm-3 col-form-label">Product Title:</label>
             <div class="col-sm-9">
                 <input class="form-control" name="keywords" id="keywords" type="search" />
             </div>
-        </div> <!-- End of 2nd row -->
+        </div>
         <!-- Price Range -->
         <div class="mb-3 row">
             <label for="price_range" class="col-sm-3 col-form-label">Price Range:</label>
             <div class="col-sm-6">
                 <div class="price_range">
-                    <input class="form-control" name="min_price" id="price_range" type="number"
-                        placeholder="minimum price" value="1" />
+                    <input class="form-control" name="min_price" id="price_range" type="number" placeholder="minimum price" value="1" />
                     <div> to </div>
-                    <input class="form-control" name="max_price" id="price_range" type="number"
-                        placeholder="maximum price" value="1000" />
+                    <input class="form-control" name="max_price" id="price_range" type="number" placeholder="maximum price" value="1000" />
                 </div>
             </div>
             <div class="col-sm-3" style="text-align: center;">

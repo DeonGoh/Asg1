@@ -58,14 +58,12 @@ include("header.php"); // Include the Page Layout header
 		echo "</div>";
 		// Right column - display the product's image
 		$img = "./Images/products/$row[ProductImage]";
-		echo "<div class='col-4'>"; // 33% of row width
+		echo "<div class='col-4'>";
 		echo "<img src='$img' style='width: 100%;height: auto;'/>";
 		echo "</div>";
 
 		echo "</div>"; // End of a row
 	}
-
-	// To Do:  Ending ....
 
 	$conn->close(); // Close database connnection
 	echo "</div>"; // End of container

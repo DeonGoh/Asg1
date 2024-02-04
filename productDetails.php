@@ -17,7 +17,7 @@ include("header.php"); // Include the Page Layout header
     $result = $stmt->get_result();
     $stmt->close();
 
-    // To Do 1:  Display Product information. Starting ....
+    // Display Product information. Starting ....
     while ($row = $result->fetch_array()) {
         // Display page Header -
         // Product's name is read from the "ProductTitle" column of "Product" table
@@ -74,8 +74,6 @@ include("header.php"); // Include the Page Layout header
         }
     }
 
-    // To Do 1:  Ending ....
-
     // check if the product is out of stock
     $qry = "SELECT Quantity FROM Product WHERE ProductId = ? ";
     $stmt = $conn->prepare($qry);
@@ -91,7 +89,7 @@ include("header.php"); // Include the Page Layout header
         }
     }
 
-    // To Do 2:  Create a Form for adding the product to shopping cart. Starting ....
+    // Create a Form for adding the product to shopping cart. Starting ....
     echo "<form action='cartFunctions.php' method='post'>";
     echo "<input type='hidden' name='action' value='add' />";
     echo "<input type='hidden' name='product_id' value='$pid' />";
@@ -113,7 +111,6 @@ include("header.php"); // Include the Page Layout header
     echo "</div>"; // End of right column
     echo "</div>"; // End of row
 
-    // To Do 2:  Ending ....
 
     $conn->close(); // Close database connnection
     echo "</div>"; // End of container
