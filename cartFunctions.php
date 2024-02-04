@@ -2,6 +2,7 @@
 session_start();
 if (isset($_POST['action'])) {
 	switch ($_POST['action']) {
+		// if action is..
 		case 'add':
 			addItem();
 			break;
@@ -25,7 +26,6 @@ function addItem()
 		header("Location: login.php");
 		exit;
 	}
-	// TO DO 1
 	// Write code to implement: if a user clicks on "Add to Cart" button, insert/update the 
 	// database and also the session variable for counting number of items in shopping cart.
 	include_once("mysql_conn.php"); // Establish database connection handle: $conn
@@ -93,7 +93,6 @@ function updateItem()
 		header("Location: login.php");
 		exit;
 	}
-	// TO DO 2
 	// Write code to implement: if a user clicks on "Update" button, update the database
 	// and also the session variable for counting number of items in shopping cart.
 	$cartid = $_SESSION["Cart"];
@@ -119,7 +118,7 @@ function removeItem()
 		header("Location: login.php");
 		exit;
 	}
-	// TO DO 3
+
 	// Write code to implement: if a user clicks on "Remove" button, update the database
 	// and also the session variable for counting number of items in shopping cart.
 	$cartid = $_SESSION["Cart"];
@@ -139,6 +138,8 @@ function removeItem()
 
 function changeShippingMethod()
 {
+	// When shipping method is changed (the dropdown list value is changed) this method is called to get
+	// the appropriate delivery charge, date and delivery type
 	switch ($_POST['deliveryMethod']) {
 		case 'Normal':
 			$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
@@ -163,6 +164,7 @@ function changeShippingMethod()
 
 function addWorkingDays($startDate, $numWorkingDays)
 {
+	//Working days do not include weekend so this code skips past them
 	$startDate = new DateTime($startDate);
 
 	// Iterate through each day and skip weekends

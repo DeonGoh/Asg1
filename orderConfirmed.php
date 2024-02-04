@@ -4,6 +4,7 @@
 session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 
+// if orderID is found
 if(isset($_SESSION["OrderID"])) {	
 	echo "<p>Checkout successful. Your order number is $_SESSION[OrderID]</p>";
 
@@ -34,6 +35,8 @@ if(isset($_SESSION["OrderID"])) {
 		echo "<td style='width:25%;'>$quantity</td>";
 		echo "</tr>";
 	}
+
+	// Variables are all taken from checkoutprocess and shopping cart
 	echo "</table>";
 
 	echo "<p>Subtotal : S$ ". number_format($_SESSION['SubTotal'],2). "</p>";
