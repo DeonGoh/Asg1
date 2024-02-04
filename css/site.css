@@ -34,11 +34,11 @@ body {
 	border-collapse:collapse;
 }
 
-.producttable td th{
+.producttable tbody tr td th{
 	width:25%;
 }
 
-.producttable th{
+.producttable tbody tr th{
 	background-color: #3366ff;
   	color: white;
 }

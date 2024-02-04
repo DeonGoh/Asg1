@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="css/site.css">
+
 <?php 
 session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
@@ -8,12 +10,15 @@ if(isset($_SESSION["OrderID"])) {
 
 	$items = $_SESSION['Items'];
 
-	echo "<table class='producttable'>";
+
+	echo "Your purchased items were";
+	echo "";
+	echo "<table style='width:100%;border-collapse:collapse; '>";
 	echo "<tr>";
-	echo "<th class='tablerow'>Product ID</th>";
-	echo "<th class='tablerow'>Product Name</th>";
-	echo "<th class='tablerow'>Product Price(S$)</th>";
-	echo "<th class='tablerow'>Product Quantity</th>";
+	echo "<th style='width:25%; background-color: #3366ff; color: white;'>Product ID</th>";
+	echo "<th style='width:25%; background-color: #3366ff; color: white;'>Product Name</th>";
+	echo "<th style='width:25%; background-color: #3366ff; color: white;'>Product Price(S$)</th>";
+	echo "<th style='width:25%; background-color: #3366ff; color: white;'>Product Quantity</th>";
 	echo "</tr>";
 
 	foreach ($items as $item) {
@@ -23,11 +28,11 @@ if(isset($_SESSION["OrderID"])) {
 		$quantity = $item['quantity'];
 		
 		// Use the values as needed
-		echo "<tr>";
-		echo "<td class='tablerow'>$productId</td>";
-		echo "<td class='tablerow'>$name</td>";
-		echo "<td class='tablerow'>$price</td>";
-		echo "<td class='tablerow'>$quantity</td>";
+		echo "<tr style='background-color:#e6e6e6'>";
+		echo "<td style='width:25%;'>$productId</td>";
+		echo "<td style='width:25%;'>$name</td>";
+		echo "<td style='width:25%;'>$price</td>";
+		echo "<td style='width:25%;'>$quantity</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -37,8 +42,9 @@ if(isset($_SESSION["OrderID"])) {
 	echo "<p>Tax total : S$". number_format($_SESSION['Tax'],2). "</p>";
 	echo "<p>Delivery Type : $_SESSION[DeliveryType]</p>";
 	echo "<p>Delivery Charge : S$". number_format( $_SESSION['DeliveryCharge'],2) . "</p>";
-	echo "<p>Shipping to $_SESSION[ShipAddress] </p>";
-	echo "<p>Total including tax : ". number_format($_SESSION['Total'],2). "</p>";
+	echo "<p>Shipping to : $_SESSION[ShipAddress] </p>";
+	echo "<p>Total including tax : S$". number_format($_SESSION['Total'],2). "</p>";
+	echo "<p>Estimated shipping date : ". date_format(new DateTime(), "Y-m-d") . " - ". date_format($_SESSION['DeliveryDate'], "Y-m-d")."</p>";
 	echo "<p></p>";
 	echo "<p>Thank you for your purchase.&nbsp;&nbsp;";
 	echo '<a href="index.php">Continue shopping</a></p>';
