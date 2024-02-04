@@ -96,10 +96,16 @@ if (isset($_SESSION["Cart"])) {
 			echo "</tr>";
 			// To Do 6 (Practical 5):
 			// Store the shopping cart items in session variable as an associate array
+			if ($offered == 1) {
+				$price = $offeredPrice;
+			}
+			else{
+				$price = $row['Price'];
+			}
 			$_SESSION['Items'][] = array(
 				"productId" => $row["ProductID"],
 				"name" => $row["Name"],
-				"price" => $row['Price'],
+				"price" => $price,
 				"quantity" => $row['Quantity']
 			);
 
@@ -152,7 +158,9 @@ if (isset($_SESSION["Cart"])) {
 		$_SESSION['DeliveryDate'] = $deliveryDate;
 		$_SESSION['DeliveryCharge'] = $charge;
 		$_SESSION['DeliveryType'] = $deliveryType;
-
+		
+		echo "<p style='text-align: right;'>Normal delivery will deliver your items within 2 working days after an order is placed </p>";
+		echo "<p style='text-align: right;'>Express delivery will delivered your items within 24 hours after an order is placed</p>";
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align:right; font: size 20px'> Subtotal = S$" . number_format($subTotal, 2);
@@ -160,7 +168,9 @@ if (isset($_SESSION["Cart"])) {
 
 		echo "<p style='text-align: right; font: size 20px'> Shipping Charge = S$" . number_format($_SESSION["DeliveryCharge"], 2);
 
+		
 		echo "<p style='text-align:right;'>Estimated shipping date : " . date_format(new DateTime(), "Y-m-d") . " - " . date_format($_SESSION['DeliveryDate'], "Y-m-d") . "</p>";
+		
 		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
