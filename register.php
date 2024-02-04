@@ -6,14 +6,14 @@ include("header.php");
 ?>
 <script type="text/javascript">
     function validateForm() {
-        // To Do 1 - Check if password matched
+        // Check if password matched
         if (document.register.password.value != document.register.password2.value) {
             alert("Passwords not matched!");
             return false; //cancel submission
         }
-        // To Do 2 - Check if telephone number entered correctly
-        //           Singapore telephone number consists of 8 digits,
-        //           start with 6, 8 or 9
+        // Check if telephone number entered correctly
+        // Singapore telephone number consists of 8 digits,
+        // start with 6, 8 or 9
         if (document.register.phone.value != "") {
             var str = document.register.phone.value;
             if (str.length != 8) {

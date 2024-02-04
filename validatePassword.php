@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("header.php"); // Include your header file
+include("header.php");
 
 if (isset($_POST["email"])) {
     $email = $_POST["email"];
@@ -52,7 +52,7 @@ if (isset($_POST["email"])) {
             }
         }
 
-        echo "</div>"; // Closing container
+        echo "</div>";
     } else {
         echo "<p>Email not found in our records.</p>";
     }
@@ -60,4 +60,4 @@ if (isset($_POST["email"])) {
     $conn->close();
 }
 
-include("footer.php"); // Include your footer file
+include("footer.php");

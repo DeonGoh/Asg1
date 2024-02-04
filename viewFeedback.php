@@ -1,9 +1,9 @@
 <?php
-// Detect the current session
+
 session_start();
-// Include the Page Layout header
+
 include("header.php");
-// Include your database connection file
+
 include_once("mysql_conn.php");
 ?>
 
@@ -39,6 +39,5 @@ include_once("mysql_conn.php");
 </div>
 
 <?php
-// Include the Page Layout footer
 include("footer.php");
 ?>

@@ -2,13 +2,12 @@
 session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 
-// To Do 1: Check if user logged in
+// Check if user logged in
 if (!isset($_SESSION["ShopperID"])) {
     // If not logged in, redirect to the login page
     header("Location: login.php");
     exit;
 }
-// End of To Do 1
 
 include_once("mysql_conn.php"); // Include your database connection
 
@@ -65,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<!-- Create a centrally located container -->
 <div style="width:80%; margin:auto;">
     <form method="post">
         <div class="form-group row">
@@ -133,8 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </form>
-</div> <!-- Closing container -->
+</div>
 
 <?php
-include("footer.php"); // Include the Page Layout footer
+include("footer.php");
 ?>
