@@ -13,7 +13,6 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mysql_conn.php");
-	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT sci.*,(sci.Price*sci.Quantity) AS Total,p.Offered,p.OfferedPrice FROM ShopCartItem sci 
 			INNER JOIN product p ON sci.ProductID = p.ProductID WHERE ShopCartID=?";
@@ -23,9 +22,8 @@ if (isset($_SESSION["Cart"])) {
 	$result = $stmt->get_result();
 	$stmt->close();
 
-	if ($result->num_rows > 0) {
-		// To Do 2 (Practical 4): Format and display 
-		// the page header and header row of shopping cart page
+	if ($result->num_rows > 0) { 
+		// Format and display the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>";
 		echo "<div class='table-responsive' style='width:80%; margin:0 auto 0 auto;'>"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
@@ -39,12 +37,9 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tr>"; // End of header row
 		echo "</thead>"; // End of table's header section
 
-		// To Do 5 (Practical 5):
 		// Declare an array to store the shopping cart items in session variable 
 		$_SESSION['Items'] = array();
 
-
-		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
@@ -94,7 +89,6 @@ if (isset($_SESSION["Cart"])) {
 			echo "</form>";
 			echo "</td>";
 			echo "</tr>";
-			// To Do 6 (Practical 5):
 			// Store the shopping cart items in session variable as an associate array
 			$_SESSION['Items'][] = array(
 				"productId" => $row["ProductID"],
@@ -153,7 +147,6 @@ if (isset($_SESSION["Cart"])) {
 		$_SESSION['DeliveryCharge'] = $charge;
 		$_SESSION['DeliveryType'] = $deliveryType;
 
-		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style='text-align:right; font: size 20px'> Subtotal = S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
@@ -161,7 +154,6 @@ if (isset($_SESSION["Cart"])) {
 		echo "<p style='text-align: right; font: size 20px'> Shipping Charge = S$" . number_format($_SESSION["DeliveryCharge"], 2);
 
 		echo "<p style='text-align:right;'>Estimated shipping date : " . date_format(new DateTime(), "Y-m-d") . " - " . date_format($_SESSION['DeliveryDate'], "Y-m-d") . "</p>";
-		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
 		echo "<input type='image' style='float:right;'
