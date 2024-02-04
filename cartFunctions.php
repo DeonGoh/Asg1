@@ -2,6 +2,7 @@
 session_start();
 if (isset($_POST['action'])) {
 	switch ($_POST['action']) {
+		// if action is..
 		case 'add':
 			addItem();
 			break;
@@ -136,6 +137,8 @@ function removeItem()
 
 function changeShippingMethod()
 {
+	// When shipping method is changed (the dropdown list value is changed) this method is called to get
+	// the appropriate delivery charge, date and delivery type
 	switch ($_POST['deliveryMethod']) {
 		case 'Normal':
 			$deliveryDate = addWorkingDays(date("Y-m-d"), 2);
@@ -160,6 +163,7 @@ function changeShippingMethod()
 
 function addWorkingDays($startDate, $numWorkingDays)
 {
+	//Working days do not include weekend so this code skips past them
 	$startDate = new DateTime($startDate);
 
 	// Iterate through each day and skip weekends

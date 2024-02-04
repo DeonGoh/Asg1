@@ -1,4 +1,4 @@
-body {
+ body {
     font-family : Arial;
     font-size : 14px;
 }
@@ -27,4 +27,18 @@ body {
 
 .price_range div{
 	margin: auto;
+}
+
+.producttable{
+	width:100%; 
+	border-collapse:collapse;
+}
+
+.producttable tbody tr td th{
+	width:25%;
+}
+
+.producttable tbody tr th{
+	background-color: #3366ff;
+  	color: white;
 }
