@@ -26,6 +26,7 @@ include("header.php");
             return false; // cancel submission
         }
         return true; // No error found
+
     }
 </script>
 
@@ -45,7 +46,7 @@ include("header.php");
         <div class="mb-3 row">
             <label class="col-sm-3 col-form-label" for="birthdate">BirthDate:</label>
             <div class="col-sm-9">
-                <input class="form-control" name="birthdate" id="birthdate" type="text" required />
+                <input class="form-control" name="birthdate" id="birthdate" type="date" />
             </div>
         </div>
         <div class="mb-3 row">

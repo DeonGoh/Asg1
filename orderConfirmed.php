@@ -5,7 +5,6 @@ session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 
 if(isset($_SESSION["OrderID"])) {	
-	echo "<div style='width:80%; margin:auto;'>";
 	echo "<p>Checkout successful. Your order number is $_SESSION[OrderID]</p>";
 
 	$items = $_SESSION['Items'];
